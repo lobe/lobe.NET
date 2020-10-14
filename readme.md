@@ -8,7 +8,7 @@
 
 * Export a tf model from a project you have in the lobe applciation
 * Install the [tf2onnx](https://github.com/onnx/tensorflow-onnx) tool
-* Convert the tf model to onnx following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/save_mode/ --output model.onnx```
+* Convert the tf model to onnx following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output model.onnx```
 
 
 ### Use the model in your own .NET application
