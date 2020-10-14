@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Description>Extension for using ImageSharp</Description>
+    <PackageId>lobe.ImageSharp</PackageId>
+    <IsPackable>true</IsPackable>
+    <PackageIcon>lobe_icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\lobe\lobe.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\lobe_icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
