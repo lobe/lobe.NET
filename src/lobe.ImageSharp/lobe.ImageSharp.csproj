@@ -6,6 +6,7 @@
     <PackageId>lobe.ImageSharp</PackageId>
     <IsPackable>true</IsPackable>
     <PackageIcon>lobe_icon.png</PackageIcon>
+    <PackageVersion>0.0.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

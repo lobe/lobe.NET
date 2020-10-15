@@ -8,6 +8,7 @@
     <IsPackable>true</IsPackable>
     <PackageIcon>lobe_icon.png</PackageIcon>
     <Description>Onnx runtime based classifier</Description>
+    <PackageVersion>0.0.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
