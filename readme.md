@@ -1,14 +1,14 @@
-# .NET libraries for lobe
+# .NET libraries for Lobe
 
-
+A .NET library to run inference on exported Lobe models.
 
 ## How to get started
 
-### Export the model from lobe app
+### Export the model from Lobe app
 
-* Export a tf model from a project you have in the lobe applciation
+* Export a TensorFlow model from a project you have in the Lobe applciation
 * Install the [tf2onnx](https://github.com/onnx/tensorflow-onnx) tool
-* Convert the tf model to onnx following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output model.onnx```
+* Convert the TensorFlow model to ONNX following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output model.onnx```
 
 
 ### Use the model in your own .NET application
