@@ -57,11 +57,11 @@ namespace lobe.ImageSharp.Tests
             var signature = Signature.FromFile(new FileInfo("./signature.json"));
             using var source = new Image<Rgb24>(1024, 1024, Color.White);
 
-            var shape = signature.Inputs.SelectToken("Image.shape").Values<float?>().ToArray();
+            var shape = signature.GetInputShape("Image");
             var flatData = source.ToFlatArrayMatchingInputShape(signature, "Image");
-            var width = (int)(shape[1] ?? 0);
-            var height = (int)(shape[2] ?? 0);
-            var pixelSize = (int)(shape[3] ?? 0);
+            var width = shape[1];
+            var height = shape[2];
+            var pixelSize = shape[3];
 
             using var _ = new AssertionScope();
             flatData.Length.Should().Be(width * height * pixelSize);

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace lobe
 {
@@ -11,28 +10,28 @@ namespace lobe
     {
         public static Signature FromFile(FileInfo signatureFile)
         {
-            var json = JObject.Parse(File.ReadAllText(signatureFile.FullName));
+            var json = JsonDocument.Parse(File.ReadAllText(signatureFile.FullName)).RootElement;
             var modelPath = new DirectoryInfo(Path.GetDirectoryName(signatureFile.FullName));
-            var inputs = json["inputs"].Value<JObject>();
-            var outputs = json["outputs"].Value<JObject>();
-            var classes = json["classes"]["Label"].Values<string>().ToArray();
+            var inputs = json.GetProperty("inputs");
+            var outputs = json.GetProperty("outputs");
+            var classes = json.GetProperty("classes").GetProperty("Label").EnumerateArray().Select(je => je.GetString()).ToArray();
 
             return new Signature
             {
                 ModelPath = modelPath,
-                Id = json["doc_id"].Value<string>(),
-                Name = json["doc_name"].Value<string>(),
-                FileName = json["filename"].Value<string>(),
-                Format = json["format"].Value<string>(),
+                Id = json.GetProperty("doc_id").GetString(),
+                Name = json.GetProperty("doc_name").GetString(),
+                FileName = json.GetProperty("filename").GetString(),
+                Format = json.GetProperty("format").GetString(),
                 Classes = classes,
                 Inputs = inputs,
                 Outputs = outputs
             };
         }
 
-        public JObject Outputs { get; private set; }
+        private JsonElement Outputs { get; set; }
 
-        public JObject Inputs { get; private set; }
+        private JsonElement Inputs { get; set; }
 
         public IEnumerable<string> Classes { get; private set; }
 
@@ -52,7 +51,19 @@ namespace lobe
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(inputLabel));
             }
-            return Inputs.SelectToken($"{inputLabel}.name")?.Value<string>() ?? throw new KeyNotFoundException($"Cannot locate inputs.{inputLabel}.name");
+
+            string inputId;
+
+            try
+            {
+                inputId = Inputs.GetProperty($"{inputLabel}").GetProperty("name").GetString();
+            }
+            catch (Exception e)
+            {
+                throw new KeyNotFoundException($"Cannot locate inputs.{inputLabel}.name", e);
+            }
+
+            return inputId;
         }
 
         public int[] GetInputShape(string inputLabel)
@@ -61,9 +72,34 @@ namespace lobe
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(inputLabel));
             }
+            var values = new List<int>();
+            try
+            {
+                var shapes = Inputs.GetProperty($"{inputLabel}").GetProperty("shape").EnumerateArray();
 
-            var shape = Inputs.SelectToken($"{inputLabel}.shape")?.Values<int?>()?.Select(f => f ?? 1).ToArray();
-            return shape ?? throw new KeyNotFoundException($"Cannot locate inputs.{inputLabel}.shape");
+                foreach (var shape in shapes)
+                {
+                    switch (shape.ValueKind)
+                    {
+                        case JsonValueKind.Null:
+                        case JsonValueKind.Undefined:
+                            values.Add(1);
+                            break;
+                        case JsonValueKind.Number:
+                            values.Add(shape.GetInt32());
+                            break;
+                        default:
+                            throw new InvalidOperationException("");
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw new KeyNotFoundException($"Cannot parse inputs.{inputLabel}.shape", e);
+            }
+
+            return values.ToArray();
 
         }
 
@@ -73,7 +109,18 @@ namespace lobe
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(inputLabel));
             }
-            return Inputs.SelectToken($"{inputLabel}.dtype")?.Value<string>() ?? throw new KeyNotFoundException($"Cannot locate inputs.{inputLabel}.dtype");
+
+            string inputType;
+            try
+            {
+                inputType = Inputs.GetProperty($"{inputLabel}").GetProperty("dtype").GetString();
+            }
+            catch (Exception e)
+            {
+                throw new KeyNotFoundException($"Cannot parse inputs.{inputLabel}.dtype", e);
+            }
+
+            return inputType;
         }
 
         public string GetOutputId(string outputLabel)
@@ -82,15 +129,25 @@ namespace lobe
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(outputLabel));
             }
-            return  Outputs.SelectToken($"{outputLabel}.name")?.Value<string>() ?? throw new KeyNotFoundException($"Cannot locate outputs.{outputLabel}.name");
+
+            string outputId;
+            try
+            {
+                outputId = Outputs.GetProperty($"{outputLabel}").GetProperty("name").GetString();
+            }
+            catch (Exception e)
+            {
+                throw new KeyNotFoundException($"Cannot parse outputs.{outputLabel}.name", e);
+            }
+            return outputId;
         }
 
         public FileInfo GetModelFile(string fileName = null)
-        { 
-            fileName??= FileName;
-            return Path.IsPathRooted(fileName) 
-                ? new FileInfo(fileName) 
-                : new FileInfo(Path.Combine(ModelPath.FullName, fileName?? FileName));
+        {
+            fileName ??= FileName;
+            return Path.IsPathRooted(fileName)
+                ? new FileInfo(fileName)
+                : new FileInfo(Path.Combine(ModelPath.FullName, fileName ?? FileName));
         }
     }
 }
