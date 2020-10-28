@@ -8,6 +8,9 @@
     <IsPackable>true</IsPackable>
     <PackageIcon>lobe_logo.png</PackageIcon>
     <PackageVersion>0.0.1</PackageVersion>
+    <RepositoryUrl>https://github.com/lobe/lobe.NET</RepositoryUrl>
+    <PackageTags>lobe classifier deepleraning</PackageTags>
+    <PackageProjectUrl>https://lobe.ai/</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
