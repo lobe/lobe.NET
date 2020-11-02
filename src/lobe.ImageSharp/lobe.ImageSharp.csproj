@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
     <Description>Extension for using ImageSharp</Description>
     <PackageId>lobe.ImageSharp</PackageId>
     <IsPackable>true</IsPackable>

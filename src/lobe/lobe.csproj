@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>core interfaces for lobe</Description>
     <PackageId>lobe</PackageId>
@@ -17,7 +18,11 @@
     <PackageReference Include="System.Reactive" Version="4.4.1" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+
+    <ItemGroup>
     <None Include="..\lobe_logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
