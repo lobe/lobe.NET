@@ -60,15 +60,19 @@ namespace lobe
             var prediction = (predictionResult.Value as DenseTensor<string>).Buffer.Span[0];
 
             var classifications =  new List<Classification>();
+            var maxConfidence = 0.0;
+            Classification max = null;
             for (var i = 0; i < confidences.Length; i++)
             {
                 var classification = new Classification(labels[i], confidences[i]);
                 
                 classifications.Add(classification);
+                if (classification.Confidence > maxConfidence)
+                {
+                    maxConfidence = classification.Confidence; 
+                    max = classification;
+                }
             }
-
-           
-            var max = classifications.First(c => c.Label == prediction);
 
             return new ClassificationResults(max, classifications.OrderByDescending(c => c.Confidence ).ToList());
         }
