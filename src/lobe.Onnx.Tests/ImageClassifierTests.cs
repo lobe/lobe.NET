@@ -51,7 +51,7 @@ namespace lobe.Onnx.Tests
 
             var results = classifier.Classify(Image.Load(imageFilePath).CloneAs<Rgb24>());
 
-            results.Classification.Label.Should()
+            results.Prediction.Label.Should()
                 .Be(expectedLabel);
         }
     }

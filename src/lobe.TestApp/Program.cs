@@ -26,7 +26,7 @@ namespace lobe.TestApp
             var results = classifier.Classify(Image
                 .Load(imageToClassify).CloneAs<Rgb24>());
 
-            Console.WriteLine(results.Classification.Label);
+            Console.WriteLine(results.Prediction.Label);
         }
     }
 }

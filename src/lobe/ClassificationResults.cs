@@ -4,13 +4,13 @@ namespace lobe
 {
     public class ClassificationResults
     {
-        public ClassificationResults(Classification classification, IEnumerable<Classification> classifications)
+        public ClassificationResults(Classification prediction, IEnumerable<Classification> classifications)
         {
-            Classification = classification;
+            Prediction = prediction;
             Classifications = classifications;
         }
 
-        public Classification Classification { get; }
+        public Classification Prediction { get; }
         public IEnumerable<Classification> Classifications { get; }
     }
 }
