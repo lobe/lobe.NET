@@ -4,6 +4,11 @@ namespace lobe
 {
     public class ClassificationResults
     {
+        public override string ToString()
+        {
+            return $"Prediction: {Prediction}";
+        }
+
         public ClassificationResults(Classification prediction, IEnumerable<Classification> classifications)
         {
             Prediction = prediction;
