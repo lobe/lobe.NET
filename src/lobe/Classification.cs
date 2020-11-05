@@ -70,7 +70,7 @@ namespace lobe
         public double Confidence { get; }
         public override string ToString()
         {
-            return $"{Label} [{Confidence}]";
+            return $"{Label} [{Confidence:F4}]";
         }
     }
 }
