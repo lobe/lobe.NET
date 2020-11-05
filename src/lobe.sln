@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lobe.ImageSharp", "lobe.Ima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lobe.ImageSharp.Tests", "lobe.ImageSharp.Tests\lobe.ImageSharp.Tests.csproj", "{2AB642F8-5665-413A-9255-92FF765E0F81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lobe.Http", "lobe.Http\lobe.Http.csproj", "{FF3AC996-F578-44AB-AFE5-528F2A129002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2AB642F8-5665-413A-9255-92FF765E0F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AB642F8-5665-413A-9255-92FF765E0F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AB642F8-5665-413A-9255-92FF765E0F81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF3AC996-F578-44AB-AFE5-528F2A129002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3AC996-F578-44AB-AFE5-528F2A129002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3AC996-F578-44AB-AFE5-528F2A129002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3AC996-F578-44AB-AFE5-528F2A129002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{FF9AFB8E-66B6-443E-B0D5-C3998913C0E5} = {40BF2083-969D-4769-8AD3-930F10AAC471}
 		{54D3F79A-991E-4720-8009-4B7283BF7196} = {338FFDB0-449F-4086-9B7C-5F3A41C3D96E}
 		{2AB642F8-5665-413A-9255-92FF765E0F81} = {40BF2083-969D-4769-8AD3-930F10AAC471}
+		{FF3AC996-F578-44AB-AFE5-528F2A129002} = {338FFDB0-449F-4086-9B7C-5F3A41C3D96E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {467C1672-4C04-403A-80B9-8D82F031594A}
