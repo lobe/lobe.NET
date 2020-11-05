@@ -7,11 +7,22 @@ namespace lobe.ImageSharp
 {
     public static class ImageUtilities
     {
+        /// <summary>
+        /// Creates a squared image with black padding mathcing the max between Width and Height of the source image.
+        /// </summary>
+        /// <typeparam name="TPixel">The Pixel type.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns>A squared image</returns>
         public static Image<TPixel> ToSquare<TPixel>(this Image<TPixel> source) where TPixel : unmanaged, IPixel<TPixel>
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
+            }
+
+            if (source.Width == source.Height)
+            {
+                return source;
             }
 
             var width = source.Width;
@@ -29,11 +40,22 @@ namespace lobe.ImageSharp
             return squared;
         }
 
+        /// <summary>
+        /// Crops the image to a square mathcing the min between Width and Height of the source image.
+        /// </summary>
+        /// <typeparam name="TPixel">The Pixel type.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns>A squared image</returns>
         public static Image<TPixel> CropToSquare<TPixel>(this Image<TPixel> source) where TPixel : unmanaged, IPixel<TPixel>
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
+            }
+
+            if(source.Width == source.Height)
+            {
+                return source;
             }
 
             var width = source.Width;
@@ -74,7 +96,7 @@ namespace lobe.ImageSharp
                 throw new InvalidOperationException($"Shape {shape} is invalid.");
             }
             var conformed = new float[dataSize];
-            using var resized = source.ToSquare();
+            using var resized = source.CropToSquare();
             
             
             resized.Mutate(context =>
