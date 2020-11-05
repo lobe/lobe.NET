@@ -28,6 +28,7 @@ after_build:
   - cmd: dotnet pack src/lobe.ImageSharp/lobe.ImageSharp.csproj -o pacakges
   - cmd: dotnet pack src/lobe.Onnx/lobe.Onnx.csproj -o pacakges
   - cmd: dotnet pack src/lobe/lobe.csproj -o pacakges
+  - cmd: dotnet pack src/lobe.Http/lobe.Http.csproj -o pacakges
 artifacts:
   - path: "pacakges/**/*.nupkg"
     name: NugetPacakges
