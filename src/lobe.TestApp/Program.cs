@@ -23,10 +23,25 @@ namespace lobe.TestApp
                 modelFile,
                 modelFormat);
 
-            var results = classifier.Classify(Image
-                .Load(imageToClassify).CloneAs<Rgb24>());
+            if (File.Exists(imageToClassify))
+            {
+                var results = classifier.Classify(Image
+                    .Load(imageToClassify).CloneAs<Rgb24>());
 
-            Console.WriteLine(results.Prediction.Label);
+                Console.WriteLine(results.Prediction.Label);
+            }
+            else if (Directory.Exists(imageToClassify))
+            {
+                var files  = Directory.GetFiles(imageToClassify);
+
+                foreach (var file in files)
+                {
+                    var results = classifier.Classify(Image
+                        .Load(file).CloneAs<Rgb24>());
+
+                    Console.WriteLine(results.Prediction.Label);
+                }
+            }
         }
     }
 }
