@@ -15,14 +15,28 @@ namespace lobe
             var inputs = json.GetProperty("inputs");
             var outputs = json.GetProperty("outputs");
             var classes = json.GetProperty("classes").GetProperty("Label").EnumerateArray().Select(je => je.GetString()).ToArray();
+            var fileName = json.GetProperty("filename").GetString();
+            var format = json.GetProperty("format").GetString();
 
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                switch (format)
+                {
+                    case "tf":
+                        fileName = "saved_model.pb";
+                        break;
+                    case "onnx":
+                        fileName = "model.onnx";
+                        break;
+                }
+            }
             return new Signature
             {
                 ModelPath = modelPath,
                 Id = json.GetProperty("doc_id").GetString(),
                 Name = json.GetProperty("doc_name").GetString(),
-                FileName = json.GetProperty("filename").GetString(),
-                Format = json.GetProperty("format").GetString(),
+                FileName = fileName,
+                Format = format,
                 Classes = classes,
                 Inputs = inputs,
                 Outputs = outputs
