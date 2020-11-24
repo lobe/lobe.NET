@@ -8,7 +8,7 @@ A .NET library to run inference on exported Lobe models.
 
 * Export a TensorFlow model from a project you have in the Lobe applciation
 * Install the [tf2onnx](https://github.com/onnx/tensorflow-onnx) tool
-* Convert the TensorFlow model to ONNX following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output saved_model.onnx```
+* Convert the TensorFlow model to ONNX following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output model.onnx```
 
 
 ### Use the model in your own .NET application
@@ -33,15 +33,11 @@ namespace lobe.TestApp
         static void Main(string[] args)
         {
             var signatureFilePath = args[0];
-            var modelFile = args[1];
-            var modelFormat = args[2];
-            var imageToClassify = args[3];
+            var imageToClassify = args[1];
 
             ImageClassifier.Register("onnx", () => new OnnxImageClassifier());
             using var classifier = ImageClassifier.CreateFromSignatureFile(
-                new FileInfo(signatureFilePath),
-                modelFile,
-                modelFormat);
+                new FileInfo(signatureFilePath));
 
             var results = classifier.Classify(Image
                 .Load(imageToClassify).CloneAs<Rgb24>());
@@ -70,6 +66,6 @@ using var classifier = ImageClassifier.CreateFromSignatureFile(new FileInfo(sign
     ...
     "format": "onnx",
     ...
-    "filename": "saved_model.onnx"
+    "filename": "model.onnx"
 }
 ```

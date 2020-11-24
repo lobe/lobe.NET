@@ -12,16 +12,12 @@ namespace lobe.TestApp
         static void Main(string[] args)
         {
             var signatureFilePath = args[0];
-            var modelFile = args[1];
-            var modelFormat = args[2];
-            var imageToClassify = args[3];
+            var imageToClassify = args[1];
 
             ImageClassifier.Register("onnx", () => new OnnxImageClassifier());
 
             using var classifier = ImageClassifier.CreateFromSignatureFile(
-                new FileInfo(signatureFilePath),
-                modelFile,
-                modelFormat);
+                new FileInfo(signatureFilePath));
 
             if (File.Exists(imageToClassify))
             {
@@ -32,7 +28,7 @@ namespace lobe.TestApp
             }
             else if (Directory.Exists(imageToClassify))
             {
-                var files  = Directory.GetFiles(imageToClassify);
+                var files = Directory.GetFiles(imageToClassify);
 
                 foreach (var file in files)
                 {
