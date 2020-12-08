@@ -68,7 +68,7 @@ In your .NET App make sure you ahve installed the following nuget packages
 Then import teh namespaces
 ```csharp
 using System.IO;
-using SixLabors.ImageSharp
+using SixLabors.ImageSharp;
 
 using lobe.Http;
 
