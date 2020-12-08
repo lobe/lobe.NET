@@ -6,10 +6,7 @@ A .NET library to run inference on exported Lobe models.
 
 ### Export the model from Lobe app
 
-* Export a TensorFlow model from a project you have in the Lobe applciation
-* Install the [tf2onnx](https://github.com/onnx/tensorflow-onnx) tool
-* Convert the TensorFlow model to ONNX following using the command ```python -m tf2onnx.convert --saved-model path/that/contains/saved_model/ --output model.onnx```
-
+* Export  your model as ONNX format
 
 ### Use the model in your own .NET application
 
@@ -60,12 +57,28 @@ using var classifier = ImageClassifier.CreateFromSignatureFile(new FileInfo(sign
 
 ```
 
-!! At this moment you need to override the model file path and the model format to `onnx` or you can override the values of `format` and `filename` in the `signature.json` to look like this
-```json
-{
-    ...
-    "format": "onnx",
-    ...
-    "filename": "model.onnx"
-}
+### Use the lobe app directly
+
+For rapid iteraction you can test you model taking advantage of the http endpoint that the lobe app exposes. First open teh app and then the model you want to use. Next got to export menu and select teh api option, get the url from there ti should look like ```http://localhost:38100/predict/bdff75cc-ee54-46cf-a290-f9095ef78516"```.
+
+In your .NET App make sure you ahve installed the following nuget packages
+* ```lobe.Http```
+* ```lobe.ImageSharp```
+
+Then import teh namespaces
+```csharp
+using System.IO;
+using SixLabors.ImageSharp
+
+using lobe.Http;
+
+```
+
+And finally create the client, connect to the endpoint and now use it classify the image
+```csharp
+var client = new LobeClient();
+client.UseUri(new Uri("http://localhost:38100/predict/bdff75cc-ee54-46cf-a290-f9095ef78516"));
+
+var result = client.Classify(picture.CloneAs<Rgb24>());
+
 ```
