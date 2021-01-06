@@ -86,7 +86,11 @@ namespace lobe
             {
                 throw new FileNotFoundException("Cannot find model file", modelFile.FullName);
             }
-            _session = new InferenceSession(modelFile.FullName);
+           
+            _session = new InferenceSession(modelFile.FullName, new SessionOptions
+            {
+                LogSeverityLevel = OrtLoggingLevel.ORT_LOGGING_LEVEL_ERROR
+            });
         }
     }
 }
