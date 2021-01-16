@@ -1,9 +1,6 @@
 ﻿using System;
 
 using OpenCvSharp;
-using OpenCvSharp.Extensions;
-
-using Size = OpenCvSharp.Size;
 
 namespace lobe.OpenCvSharp
 {
@@ -67,9 +64,7 @@ namespace lobe.OpenCvSharp
                 throw new InvalidOperationException($"Shape {shape} is invalid.");
             }
             var conformed = new float[dataSize];
-            using var resized = source.CropToSquare();
-
-            resized.Resize(new Size(width, height));
+            using var resized = source.CropToSquare().Resize(new Size(width, height));
 
             for (var y = 0; y < resized.Height; y++)
             {
