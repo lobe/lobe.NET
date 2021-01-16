@@ -25,7 +25,7 @@ build_script:
   - cmd: dotnet build src/lobe.sln
 after_build:
   # For once the build has completed
-  - cmd: dotnet pack src/lobe.lobe.OpenCvSharp/lobe.lobe.OpenCvSharp.csproj -o pacakges
+  - cmd: dotnet pack src/lobe.OpenCvSharp/lobe.OpenCvSharp.csproj -o pacakges
   - cmd: dotnet pack src/lobe.ImageSharp/lobe.ImageSharp.csproj -o pacakges
   - cmd: dotnet pack src/lobe.Onnx/lobe.Onnx.csproj -o pacakges
   - cmd: dotnet pack src/lobe/lobe.csproj -o pacakges
