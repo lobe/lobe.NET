@@ -8,7 +8,7 @@ namespace lobe.ImageSharp
     public static class ImageUtilities
     {
         /// <summary>
-        /// Creates a squared image with black padding mathcing the max between Width and Height of the source image.
+        /// Creates a squared image with black padding matching the max between Width and Height of the source image.
         /// </summary>
         /// <typeparam name="TPixel">The Pixel type.</typeparam>
         /// <param name="source">The source.</param>
@@ -41,7 +41,7 @@ namespace lobe.ImageSharp
         }
 
         /// <summary>
-        /// Crops the image to a square mathcing the min between Width and Height of the source image.
+        /// Crops the image to a square matching the min between Width and Height of the source image.
         /// </summary>
         /// <typeparam name="TPixel">The Pixel type.</typeparam>
         /// <param name="source">The source.</param>
@@ -67,6 +67,13 @@ namespace lobe.ImageSharp
             return squared;
         }
 
+        /// <summary>
+        /// Converts the image to a flat float array with normalized values. <remarks>The source image must be converted to RGB color space.</remarks>
+        /// </summary>
+        /// <param name="source">Source image in RGB color space</param>
+        /// <param name="signature">Signature file</param>
+        /// <param name="inputLabel">Input label</param>
+        /// <returns>A flat array with normalized values</returns>
         public static float[] ToFlatArrayMatchingInputShape<TPixel>(this Image<TPixel> source, Signature signature,
             string inputLabel) where TPixel : unmanaged, IPixel<TPixel>
         {
