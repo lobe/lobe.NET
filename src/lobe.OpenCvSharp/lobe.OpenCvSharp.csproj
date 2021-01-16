@@ -3,7 +3,7 @@
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <Description>Extension for using OpenCVSharp</Description>
-    <PackageId>lobe.ImageSharp</PackageId>
+    <PackageId>lobe.OpenCVSharp</PackageId>
     <IsPackable>true</IsPackable>
     <PackageIcon>lobe_logo.png</PackageIcon>
     <PackageVersion>0.0.1</PackageVersion>
