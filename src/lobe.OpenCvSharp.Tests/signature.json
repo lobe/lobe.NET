@@ -1,0 +1,29 @@
+{
+  "doc_id": "da60564f-074a-45be-8d4d-27d0283e9a8d",
+  "doc_name": "Image to Label Accuracy Template",
+  "doc_version": "66395caa3ace1a7a33748b5ee70b3d05",
+  "format": "tf",
+  "version": "66395caa3ace1a7a33748b5ee70b3d05_823_s",
+  "inputs": {
+    "Image": {
+      "dtype": "float32",
+      "shape": [ null, 224, 224, 3 ],
+      "name": "Image:0"
+    }
+  },
+  "outputs": {
+    "Prediction": {
+      "dtype": "string",
+      "shape": [ null ],
+      "name": "a90ecbb9-c80f-43b0-a1e9-5a24f6e89f72/tf_op_layer_3ff186c1-fe28-4442-abe1-44f7ed005781/19c66cd4-e1d6-49f4-80ab-3aa348c5b264/ff9b2ff4-4799-495e-8e91-a6fed91e9315/GatherV2/3ff186c1-fe28-4442-abe1-44f7ed005781/19c66cd4-e1d6-49f4-80ab-3aa348c5b264/ff9b2ff4-4799-495e-8e91-a6fed91e9315/GatherV2:0"
+    },
+    "Confidences": {
+      "dtype": "float32",
+      "shape": [ null, 11 ],
+      "name": "a90ecbb9-c80f-43b0-a1e9-5a24f6e89f72/dense_2/Softmax:0"
+    }
+  },
+  "tags": [ "serve" ],
+  "classes": { "Label": [ "Heaven Pegasus", "Master Diabolos (left)", "Master Diabolos (right)", "No bey", "Orb Egis", "Requiem Spriggan", "Revive Phoenix", "Revive Phoenix (no shield)", "Sieg Excalibur", "Storm Spriggan", "Winning Valkyrie" ] },
+  "filename": null
+}
