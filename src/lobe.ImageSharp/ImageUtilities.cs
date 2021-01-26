@@ -126,5 +126,69 @@ namespace lobe.ImageSharp
             }
             return conformed;
         }
+        
+        /// <summary>
+        /// Extracts the center part of the image
+        /// </summary>
+        /// <param name="source">The source image.</param>
+        /// <param name="asSquare">If true the focused area is a square.</param>
+        /// <returns>The image portion.</returns>
+        public static Image Focus(this Image source, bool asSquare = true)
+        {
+            var rect = CreateFocusRectangle(source, asSquare);
+            return source.Clone(c => c.Crop(rect));
+        }
+
+        /// <summary>
+        /// Extracts the center part of the image
+        /// </summary>
+        /// <typeparam name="TPixel">The Pixel type.</typeparam>
+        /// <param name="source">The source image.</param>
+        /// <param name="asSquare">If true the focused area is a square.</param>
+        /// <returns>The image portion.</returns>
+        public static Image<TPixel> Focus<TPixel>(this Image<TPixel> source, bool asSquare = true) where TPixel : unmanaged, IPixel<TPixel>
+        {
+            var rect = CreateFocusRectangle(source, asSquare);
+            return source.Clone(c => c.Crop(rect));
+        }
+
+        /// <summary>
+        /// Create a resized copy of the image.
+        /// </summary>
+        /// <param name="source">Source.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height.</param>
+        /// <returns>The image.</returns>
+        public static Image CloneAndResize(this Image source, int width, int height)
+        {
+            return source.Clone(c => c.Resize(width, height));
+        }
+
+        /// <summary>
+        /// Create a resized copy of the image.
+        /// </summary>
+        /// <typeparam name="TPixel">The Pixel type.</typeparam>
+        /// <param name="source">Source.</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height.</param>
+        /// <returns>The image.</returns>
+        public static Image<TPixel> CloneAndResize<TPixel>(this Image<TPixel> source, int width, int height) where TPixel : unmanaged, IPixel<TPixel>
+        {
+            return source.Clone(c => c.Resize(width, height));
+        }
+
+        private static Rectangle CreateFocusRectangle(IImageInfo source, bool asSquare)
+        {
+            var width = source.Width / 2;
+            var height = source.Height / 2;
+            if (asSquare)
+            {
+                width = height = Math.Min(height, width);
+            }
+            var x = (source.Width - width) / 2;
+            var y = (source.Height - height) / 2;
+            var rect = new Rectangle(x, y, width, height);
+            return rect;
+        }
     }
 }
