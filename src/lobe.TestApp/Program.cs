@@ -1,5 +1,10 @@
 ﻿using System;
+using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using System.IO;
+using lobe.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using lobe.ImageSharp;
@@ -11,33 +16,82 @@ namespace lobe.TestApp
     {
         static void Main(string[] args)
         {
-            var signatureFilePath = args[0];
-            var imageToClassify = args[1];
+            var parser = CreateParser();
 
-            ImageClassifier.Register("onnx", () => new OnnxImageClassifier());
+            parser.Invoke(args);
+          
+        }
 
-            using var classifier = ImageClassifier.CreateFromSignatureFile(
-                new FileInfo(signatureFilePath));
+        private static Parser CreateParser()
+        {
+            var rootCommand = new RootCommand();
 
-            if (File.Exists(imageToClassify))
-            {
-                var results = classifier.Classify(Image
-                    .Load(imageToClassify).CloneAs<Rgb24>());
+            var signatureFileOption = new Option<FileInfo>("--signature-file");
 
-                Console.WriteLine(results.Prediction.Label);
-            }
-            else if (Directory.Exists(imageToClassify))
-            {
-                var files = Directory.GetFiles(imageToClassify);
+            var imageFileOption = new Option<FileInfo>("--image-file");
 
-                foreach (var file in files)
+            var imageFolderOption = new Option<FileInfo>("--image-folder");
+
+            var predictionEndpointOption = new Option<Uri>("--prediction-endpoint");
+
+            rootCommand.AddOption(signatureFileOption);
+            rootCommand.AddOption(imageFileOption);
+            rootCommand.AddOption(imageFolderOption);
+            rootCommand.AddOption(predictionEndpointOption);
+
+            rootCommand.Handler = CommandHandler.Create<FileInfo, FileInfo, DirectoryInfo, Uri>(
+                (signatureFile, imageFile, imageFolder, predictionEndpoint) =>
                 {
-                    var results = classifier.Classify(Image
-                        .Load(file).CloneAs<Rgb24>());
+                    var images = GatherImages(imageFile, imageFolder);
 
-                    Console.WriteLine(results.Prediction.Label);
-                }
+                    if (signatureFile != null)
+                    {
+                        ImageClassifier.Register("onnx", () => new OnnxImageClassifier());
+
+                        using var classifier = ImageClassifier.CreateFromSignatureFile(
+                            new FileInfo(signatureFile.FullName));
+
+                        foreach (var file in images)
+                        {
+                            var results = Classify(file, classifier.Classify);
+
+                            Console.WriteLine(results.Prediction.Label);
+                        }
+
+                        return 0;
+                    }
+                     
+                    if (predictionEndpoint != null)
+                    {
+                        var classifier = new LobeClient(predictionEndpoint);
+                       
+                        foreach (var file in images)
+                        {
+                            var results = Classify(file, classifier.Classify);
+
+                            Console.WriteLine(results.Prediction.Label);
+                        }
+
+                        return 0;
+                    }
+
+                    return 1;
+                });
+
+            return new CommandLineBuilder(rootCommand)
+                .UseDefaults()
+                .Build();
+
+            static ClassificationResults Classify(FileInfo image, ClassifierDelegate<Rgb24> classifier)
+            {
+                var source = Image.Load<Rgb24>(image.FullName);
+                return classifier(source);
             }
+        }
+
+        private static FileInfo[] GatherImages(FileInfo imageFile, DirectoryInfo imageFolder)
+        {
+            return imageFile != null ? new[] {imageFile} : imageFolder.GetFiles();
         }
     }
 }
