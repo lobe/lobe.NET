@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.5.2" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\lobe.Http\lobe.Http.csproj" />
     <ProjectReference Include="..\lobe.ImageSharp\lobe.ImageSharp.csproj" />
     <ProjectReference Include="..\lobe.Onnx\lobe.Onnx.csproj" />
     <ProjectReference Include="..\lobe\lobe.csproj" />
