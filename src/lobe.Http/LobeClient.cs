@@ -1,11 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-
-using Newtonsoft.Json.Linq;
-
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -63,17 +59,7 @@ namespace lobe.Http
             var response = _client.PostAsync(_predictionEndpoint, content).Result;
             var body = response.Content.ReadAsStringAsync().Result;
 
-            var classification = JObject.Parse(body);
-
-            var classifications = classification.SelectToken("outputs.Labels").Values<JArray>()
-                .Select(ja => new Classification(ja[0].Value<string>(), ja[1].Value<double>())).ToArray();
-
-
-            var classificationResults =
-                new ClassificationResults(
-                    classifications.First(c => c.Label == classification.SelectToken("outputs.Prediction[0]").Value<string>()),
-                    classifications);
-
+            var classificationResults = body.ToClassificationResults();
 
             return classificationResults;
         }
