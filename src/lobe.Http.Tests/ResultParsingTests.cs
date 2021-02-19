@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Xunit;
 
 namespace lobe.Http.Tests
@@ -90,6 +91,10 @@ namespace lobe.Http.Tests
 
             result.Should().NotBeNull();
             result.Prediction.Label.Should().Be("Lupitheon Ultra Aurelus");
+            result.Classifications.Select(c => c.Label).Should().BeEquivalentTo(
+            
+                "Dragonoid Pyrus","Fangzor Aquos","Gorthion Haos","Gorthion Ventus","Howlkor Ultra Haos","Hydorous Ultra Pyrus ","Hydorous X Thryno Ultra Pyrus Aurelus","Lupitheon Ultra Aurelus","Nillius Haos","No Bakugan","Pegatrix Aurelus","Pegratrix X Goreen Ultra Haos / Aurelus","Phaedrus Pyrus","Pyravian Ultra Aurelus","Serpenteze Aquos","Thryno Pyrus","Vicerox Ultra Haos"
+            );
         }
     }
 }
