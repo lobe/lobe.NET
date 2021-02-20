@@ -18,21 +18,24 @@ namespace lobe.TestApp
         {
             var parser = CreateParser();
 
-            parser.Invoke(args);
-          
+            Environment.Exit(parser.Invoke(args));
+
         }
 
         private static Parser CreateParser()
         {
-            var rootCommand = new RootCommand();
+            var rootCommand = new RootCommand
+            {
+                Description = @"Classify images using onnx model or directly the http endpoint from the lobe app."
+            };
 
-            var signatureFileOption = new Option<FileInfo>("--signature-file");
+            var signatureFileOption = new Option<FileInfo>("--signature-file", "signature file for model loading.");
 
-            var imageFileOption = new Option<FileInfo>("--image-file");
+            var imageFileOption = new Option<FileInfo>("--image-file", "image file to classify.");
 
-            var imageFolderOption = new Option<FileInfo>("--image-folder");
+            var imageFolderOption = new Option<FileInfo>("--image-folder", "folder that contain images to classify.");
 
-            var predictionEndpointOption = new Option<Uri>("--prediction-endpoint");
+            var predictionEndpointOption = new Option<Uri>("--prediction-endpoint", "prediction endpoint from lobe app.");
 
             rootCommand.AddOption(signatureFileOption);
             rootCommand.AddOption(imageFileOption);
@@ -44,8 +47,24 @@ namespace lobe.TestApp
                 {
                     var images = GatherImages(imageFile, imageFolder);
 
+                    if (signatureFile is null && predictionEndpoint is null)
+                    {
+                        throw new InvalidOperationException("Must use a signature file or prediction endpoint.");
+                    }
+
+                    if (imageFile is null && imageFolder is null)
+                    {
+                        throw new InvalidOperationException("Must use a image file or image folder.");
+                    }
+
                     if (signatureFile != null)
                     {
+                        if (!signatureFile.Exists)
+                        {
+                            throw new InvalidOperationException(
+                                $"Signature file {signatureFile.FullName} does not exist.");
+                        }
+
                         ImageClassifier.Register("onnx", () => new OnnxImageClassifier());
 
                         using var classifier = ImageClassifier.CreateFromSignatureFile(
@@ -60,11 +79,11 @@ namespace lobe.TestApp
 
                         return 0;
                     }
-                     
+
                     if (predictionEndpoint != null)
                     {
                         var classifier = new LobeClient(predictionEndpoint);
-                       
+
                         foreach (var file in images)
                         {
                             var results = Classify(file, classifier.Classify);
@@ -91,7 +110,19 @@ namespace lobe.TestApp
 
         private static FileInfo[] GatherImages(FileInfo imageFile, DirectoryInfo imageFolder)
         {
-            return imageFile != null ? new[] {imageFile} : imageFolder.GetFiles();
+            if (imageFile != null && !imageFile.Exists)
+            {
+                throw new InvalidOperationException(
+                    $"image file {imageFile.FullName} does not exist.");
+            }
+
+            if (imageFolder != null && !imageFolder.Exists)
+            {
+                throw new InvalidOperationException(
+                    $"image folder {imageFolder.FullName} does not exist.");
+            }
+
+            return imageFile != null ? new[] { imageFile } : imageFolder.GetFiles();
         }
     }
 }
