@@ -13,6 +13,7 @@
     <PackageTags>lobe classifier deepleraning</PackageTags>
     <PackageProjectUrl>https://lobe.ai/</PackageProjectUrl>
     <Authors>lobe</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

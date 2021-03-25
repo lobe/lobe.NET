@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/lobe/lobe.NET</RepositoryUrl>
     <PackageTags>lobe classifier deepleraning opencvsharp opencv</PackageTags>
     <PackageProjectUrl>https://lobe.ai/</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
