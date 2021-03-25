@@ -30,8 +30,7 @@ namespace lobe
 
             var shape = _signature.GetInputShape("Image");
             var name = _signature.GetInputId("Image");
-
-            var predictionKey =  _signature.GetOutputId("Prediction");
+            
             var confidencesKey = _signature.GetOutputId("Confidences"); 
 
             var labels = _signature.Classes.ToArray();
@@ -46,10 +45,6 @@ namespace lobe
 
             var lookup = results.ToDictionary(r => r.Name);
 
-            if (!lookup.TryGetValue(predictionKey, out var predictionResult))
-            {
-                throw new InvalidOperationException($"Cannot find output {predictionKey}");
-            }
 
             if (!lookup.TryGetValue(confidencesKey, out var confidencesResults))
             {
@@ -57,7 +52,6 @@ namespace lobe
             }
 
             var confidences = (confidencesResults.Value as DenseTensor<float>).Buffer.Span;
-            var prediction = (predictionResult.Value as DenseTensor<string>).Buffer.Span[0];
 
             var classifications =  new List<Classification>();
             var maxConfidence = 0.0;
