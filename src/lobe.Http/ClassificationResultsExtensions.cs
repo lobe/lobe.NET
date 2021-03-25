@@ -9,21 +9,27 @@ namespace lobe.Http
         public static ClassificationResults ToClassificationResults(this string json)
         {
             var root = JsonDocument.Parse(json).RootElement;
-            var outputs = root.EnumerateObject().Single(p => p.Name == "outputs").Value;
-            var labels = outputs.GetProperty("Labels");
-            var prediction = outputs.GetProperty("Prediction").EnumerateArray().FirstOrDefault().GetString()?? string.Empty;
+            var predictions = root.GetProperty("predictions");
 
+            Classification maxClassification = null;
+            var max = 0.0;
             var classifications = new List<Classification>();
-            foreach (var label in labels.EnumerateArray())
+            foreach (var prediction in predictions.EnumerateArray())
             {
-                var parts = label.EnumerateArray().ToArray();
-                var classification = new Classification(parts[0].GetString(), parts[1].GetDouble());
+                var label = prediction.GetProperty("label").GetString();
+                var confidence = prediction.GetProperty("confidence").GetDouble();
+                var classification = new Classification(label, confidence);
+                if (classification.Confidence > max)
+                {
+                    max = classification.Confidence;
+                    maxClassification = classification;
+                }
                 classifications.Add(classification);
             }
 
             var classificationResults =
                 new ClassificationResults(
-                    classifications.First(c => c.Label == prediction),
+                    maxClassification,
                     classifications);
 
 
