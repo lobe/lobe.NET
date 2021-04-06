@@ -59,9 +59,9 @@ using var classifier = ImageClassifier.CreateFromSignatureFile(new FileInfo(sign
 
 ### Use the lobe app directly
 
-For rapid iterations you can test you model taking advantage of the http endpoint that the lobe app exposes. First open the app and then the model you want to use. Next got to export menu and select the api option, get the url from there (it should look like ```http://localhost:38100/predict/bdff75cc-ee54-46cf-a290-f9095ef78516"```).
+For rapid iterations you can test your model by taking advantage of the http endpoint that the lobe app exposes. First, open the app and then the model you would like to use. Next, go to the export menu and select the api option, get the url from there (it should look like ```http://localhost:38100/predict/bdff75cc-ee54-46cf-a290-f9095ef78516"```).
 
-In your .NET App make sure you ahve installed the following nuget packages
+In your .NET App make sure you have installed the following nuget packages
 * ```lobe.Http```
 * ```lobe.ImageSharp```
 
