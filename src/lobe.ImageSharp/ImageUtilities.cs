@@ -111,19 +111,24 @@ namespace lobe.ImageSharp
                 context.Resize(width, height);
             });
 
-            for (var y = 0; y < resized.Height; y++)
+            resized.ProcessPixelRows(accessor =>
             {
-                var row = resized.GetPixelRowSpan(y);
-                var offset = y * resized.Width;
-                for (var x = 0; x < resized.Width; x++)
+                for (var y = 0; y < accessor.Height; y++)
                 {
-                    var vector = row[x].ToVector4();
-                    var dst = (x + offset) * pixelSize;
-                    conformed[dst] = vector.X;
-                    conformed[dst + 1] = vector.Y;
-                    conformed[dst + 2] = vector.Z;
+                    var row = accessor.GetRowSpan(y);
+                    var offset = y * accessor.Width;
+                    for (var x = 0; x < accessor.Width; x++)
+                    {
+                        var vector = row[x].ToVector4();
+                        var dst = (x + offset) * pixelSize;
+                        conformed[dst] = vector.X;
+                        conformed[dst + 1] = vector.Y;
+                        conformed[dst + 2] = vector.Z;
+                    }
                 }
-            }
+            });
+
+           
             return conformed;
         }
         
