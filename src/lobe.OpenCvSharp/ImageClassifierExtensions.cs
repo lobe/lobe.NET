@@ -1,13 +1,12 @@
 ﻿using OpenCvSharp;
 
-namespace lobe.OpenCvSharp
+namespace lobe.OpenCvSharp;
+
+public static class ImageClassifierExtensions
 {
-    public static class ImageClassifierExtensions
+    public static ClassificationResults Classify(this ImageClassifier classifier,
+        Mat image)
     {
-        public static ClassificationResults Classify(this ImageClassifier classifier,
-            Mat image)
-        {
-            return classifier.Classify(image.ToFlatArrayMatchingInputShape(classifier.Signature, "Image"));
-        }
+        return classifier.Classify(image.ToFlatArrayMatchingInputShape(classifier.Signature, "Image"));
     }
 }

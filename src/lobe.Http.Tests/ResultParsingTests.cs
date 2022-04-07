@@ -2,14 +2,14 @@
 using FluentAssertions;
 using Xunit;
 
-namespace lobe.Http.Tests
+namespace lobe.Http.Tests;
+
+public class ResultParsingTests 
 {
-    public class ResultParsingTests 
+    [Fact]
+    public void can_deserialize()
     {
-        [Fact]
-        public void can_deserialize()
-        {
-            var src = @"{
+        var src = @"{
     ""predictions"": [
         {
             ""label"": ""Aurelus Lupitheon Ultra (Battle Planet)"",
@@ -34,14 +34,13 @@ namespace lobe.Http.Tests
     ]
 }";
 
-            var result = src.ToClassificationResults();
+        var result = src.ToClassificationResults();
 
-            result.Should().NotBeNull();
-            result.Prediction.Label.Should().Be("Aurelus Lupitheon Ultra (Battle Planet)");
-            result.Classifications.Select(c => c.Label).Should().BeEquivalentTo(
+        result.Should().NotBeNull();
+        result.Prediction.Label.Should().Be("Aurelus Lupitheon Ultra (Battle Planet)");
+        result.Classifications.Select(c => c.Label).Should().BeEquivalentTo(
 
-                "Aurelus Lupitheon Ultra (Battle Planet)", "Aquos Hydorous (Battle Planet)", "Aquos Trox Ultra (Battle Planet)", "Aurelus Pyravian Ultra (Battle Planet)", "Darkus Hydorous (Battle Planet)"
-            );
-        }
+            "Aurelus Lupitheon Ultra (Battle Planet)", "Aquos Hydorous (Battle Planet)", "Aquos Trox Ultra (Battle Planet)", "Aurelus Pyravian Ultra (Battle Planet)", "Darkus Hydorous (Battle Planet)"
+        );
     }
 }
