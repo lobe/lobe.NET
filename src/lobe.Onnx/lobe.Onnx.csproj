@@ -1,34 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;netstandard2.1</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
-    <RootNamespace>lobe</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>lobe.Onnx</PackageId>
-    <IsPackable>true</IsPackable>
-    <PackageIcon>lobe_logo.png</PackageIcon>
-    <Description>Onnx runtime based classifier</Description>
-    <PackageVersion>0.0.1</PackageVersion>
-    <RepositoryUrl>https://github.com/lobe/lobe.NET</RepositoryUrl>
-    <PackageTags>lobe classifier deepleraning onnx</PackageTags>
-    <PackageProjectUrl>https://lobe.ai/</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>lobe</RootNamespace>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>lobe.Onnx</PackageId>
+		<IsPackable>true</IsPackable>
+		<PackageIcon>lobe_logo.png</PackageIcon>
+		<Description>Onnx runtime based classifier</Description>
+		<PackageVersion>0.0.1</PackageVersion>
+		<RepositoryUrl>https://github.com/lobe/lobe.NET</RepositoryUrl>
+		<PackageTags>lobe classifier deepleraning onnx</PackageTags>
+		<PackageProjectUrl>https://lobe.ai/</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.10.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.11.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\lobe\lobe.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\lobe\lobe.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\lobe_logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\lobe_logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
