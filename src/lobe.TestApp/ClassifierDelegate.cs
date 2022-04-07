@@ -1,6 +1,6 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace lobe.ImageSharp;
+namespace lobe.TestApp;
 
 public delegate ClassificationResults ClassifierDelegate<TPixel>(Image<TPixel> image) where TPixel : unmanaged, IPixel<TPixel>;
