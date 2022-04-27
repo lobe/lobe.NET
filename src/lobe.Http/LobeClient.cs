@@ -55,7 +55,7 @@ public class LobeClient
         var data = stream.ToArray();
         var imageSource = $"{Convert.ToBase64String(data)}";
 
-        var content = new StringContent($"{{ \"inputs\": {{ \"image\":  \"{imageSource}\" }} }}", Encoding.UTF8,
+        var content = new StringContent($"{{ \"image\":  \"{imageSource}\" }}", Encoding.UTF8,
             "application/json");
         var response = _client.PostAsync(_predictionEndpoint, content).Result;
         var body = response.Content.ReadAsStringAsync().Result;
